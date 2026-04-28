@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Video Viral</title>
+
+<style>
+* { box-sizing: border-box; }
+body {
+  margin:0; background:#000; color:#fff; font-family:Arial, sans-serif;
+}
+
+/* FULLSCREEN */
+.wrapper {
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+}
+
+/* VIDEO */
+.video-box {
+  position:relative; width:100%; height:100%;
+}
+video {
+  width:100%; height:100%; object-fit:cover; background:#000;
+}
+
+/* OVERLAY UI */
+.overlay {
+  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between;
+  pointer-events:none; /* biar klik tetap ke video-box */
+}
+
+/* TOP TEXT */
+.top {
+  padding:12px; text-align:center; font-weight:bold; text-shadow:0 2px 6px rgba(0,0,0,.6);
+}
+
+/* CENTER PLAY */
+.play-btn {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:64px; background:rgba(0,0,0,.55); border-radius:50%;
+  padding:18px 26px; animation:pulse 1.4s infinite; pointer-events:none;
+}
+
+/* DURATION */
+.duration {
+  position:absolute; bottom:70px; right:12px; background:rgba(0,0,0,.7);
+  padding:4px 8px; border-radius:6px; font-size:12px;
+}
+
+/* PROGRESS BAR */
+.progress {
+  position:absolute; bottom:56px; left:0; width:100%; height:4px; background:rgba(255,255,255,.2);
+}
+.bar {
+  width:0%; height:100%; background:#ff2d2d;
+}
+
+/* BOTTOM CTA */
+.bottom {
+  padding:12px;
+}
+.btn {
+  display:none; width:100%; padding:14px; border-radius:10px;
+  background:#ff2d2d; color:#fff; text-decoration:none; font-weight:bold;
+  text-align:center;
+}
+
+/* HINT */
+.hint {
+  position:absolute; bottom:92px; left:0; right:0; text-align:center; font-size:12px; opacity:.9;
+  text-shadow:0 2px 6px rgba(0,0,0,.6);
+}
+
+@keyframes pulse {
+  0% { transform:translate(-50%,-50%) scale(1); }
+  50% { transform:translate(-50%,-50%) scale(1.12); }
+  100% { transform:translate(-50%,-50%) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+  <div class="video-box" onclick="startVideo()">
+    <video id="vid" playsinline preload="metadata">
+      <source src="video4.mp4" type="video/mp4">
+    </video>
+
+    <!-- UI overlay -->
+    <div class="overlay">
+      <div class="top">🔥 Video Ini Lagi Viral 🔥</div>
+
+      <div class="bottom">
+        <a href="#" id="btnNext" class="btn" onclick="nextAd(event)">LANJUT NONTON</a>
+      </div>
+    </div>
+
+    <div class="play-btn" id="playBtn">▶</div>
+    <div class="duration" id="dur">00:59</div>
+
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="hint">Tap untuk memutar ▶</div>
+  </div>
+</div>
+
+<script>
+const AD_LINK = "https://injusticebakery.com/ky2ke53zw?key=f6a8bd8c5fa5e272c54364f2b859de84";
+
+let firstClick = false;
+const v = document.getElementById("vid");
+const playBtn = document.getElementById("playBtn");
+const bar = document.getElementById("bar");
+const btn = document.getElementById("btnNext");
+const dur = document.getElementById("dur");
+
+// set durasi dari video (kalau metadata sudah ada)
+v.addEventListener("loadedmetadata", () => {
+  const s = Math.floor(v.duration || 0);
+  if (s > 0) {
+    const m = String(Math.floor(s/60)).padStart(2,'0');
+    const ss = String(s%60).padStart(2,'0');
+    dur.textContent = `${m}:${ss}`;
+  }
+});
+
+function startVideo() {
+  if (!firstClick) {
+    window.open(AD_LINK, "_blank"); // IKLAN 1
+    firstClick = true;
+  }
+  v.play().catch(()=>{});
+  playBtn.style.display = "none";
+
+  // update progress
+  v.ontimeupdate = () => {
+    const p = (v.currentTime / (v.duration || 1)) * 100;
+    bar.style.width = p + "%";
+
+    // tampilkan tombol di ~30%
+    if (p > 30) btn.style.display = "block";
+  };
+}
+
+function nextAd(e) {
+  e.preventDefault();
+  window.open(AD_LINK, "_blank"); // IKLAN 2
+  // opsional: arahkan ke halaman lain
+  // window.location.href = "page2.html";
+}
+</script>
+
+</body>
+  </html>
