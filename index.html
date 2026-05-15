@@ -2,154 +2,269 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video Viral</title>
 
 <style>
-* { box-sizing: border-box; }
-body {
-  margin:0; background:#000; color:#fff; font-family:Arial, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-/* FULLSCREEN */
-.wrapper {
-  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+body{
+    background:#000;
+    color:#fff;
 }
 
-/* VIDEO */
-.video-box {
-  position:relative; width:100%; height:100%;
-}
-video {
-  width:100%; height:100%; object-fit:cover; background:#000;
-}
-
-/* OVERLAY UI */
-.overlay {
-  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between;
-  pointer-events:none; /* biar klik tetap ke video-box */
+/* HEADER */
+.warning{
+    background:#1a0008;
+    color:#ff4d88;
+    text-align:center;
+    padding:12px;
+    font-weight:bold;
+    border-bottom:1px solid #ff2d6f;
 }
 
-/* TOP TEXT */
-.top {
-  padding:12px; text-align:center; font-weight:bold; text-shadow:0 2px 6px rgba(0,0,0,.6);
+/* HERO */
+.hero{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
 }
 
-/* CENTER PLAY */
-.play-btn {
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  font-size:64px; background:rgba(0,0,0,.55); border-radius:50%;
-  padding:18px 26px; animation:pulse 1.4s infinite; pointer-events:none;
+.video-box{
+    position:relative;
+    overflow:hidden;
+    border-radius:15px;
+    cursor:pointer;
 }
 
-/* DURATION */
-.duration {
-  position:absolute; bottom:70px; right:12px; background:rgba(0,0,0,.7);
-  padding:4px 8px; border-radius:6px; font-size:12px;
+.video-box img{
+    width:100%;
+    display:block;
+    border-radius:15px;
 }
 
-/* PROGRESS BAR */
-.progress {
-  position:absolute; bottom:56px; left:0; width:100%; height:4px; background:rgba(255,255,255,.2);
-}
-.bar {
-  width:0%; height:100%; background:#ff2d2d;
-}
-
-/* BOTTOM CTA */
-.bottom {
-  padding:12px;
-}
-.btn {
-  display:none; width:100%; padding:14px; border-radius:10px;
-  background:#ff2d2d; color:#fff; text-decoration:none; font-weight:bold;
-  text-align:center;
-}
-
-/* HINT */
-.hint {
-  position:absolute; bottom:92px; left:0; right:0; text-align:center; font-size:12px; opacity:.9;
-  text-shadow:0 2px 6px rgba(0,0,0,.6);
+/* PLAY BUTTON */
+.play-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:120px;
+    height:120px;
+    background:rgba(255,0,85,.8);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:60px;
+    animation:pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-  0% { transform:translate(-50%,-50%) scale(1); }
-  50% { transform:translate(-50%,-50%) scale(1.12); }
-  100% { transform:translate(-50%,-50%) scale(1); }
+@keyframes pulse{
+    0%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-50%) scale(1.1);}
+    100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+/* DURASI */
+.duration{
+    position:absolute;
+    bottom:15px;
+    right:15px;
+    background:rgba(0,0,0,.7);
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:14px;
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    margin-top:20px;
+}
+
+.title h1{
+    font-size:45px;
+    color:#ff2d6f;
+}
+
+.title p{
+    margin-top:10px;
+    color:#ccc;
+}
+
+/* BUTTONS */
+.button-group{
+    margin-top:25px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.watch-btn{
+    display:block;
+    text-align:center;
+    background:#ff2d6f;
+    padding:18px;
+    border-radius:12px;
+    color:#fff;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.watch-btn:hover{
+    background:#ff4d88;
+}
+
+/* GALLERY */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:25px;
+}
+
+.gallery img{
+    width:100%;
+    border-radius:10px;
+    border:2px solid #ff2d6f;
+    cursor:pointer;
+}
+
+/* INFO */
+.info{
+    margin-top:30px;
+    text-align:center;
+    color:#aaa;
+    font-size:14px;
+    padding-bottom:30px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.title h1{
+    font-size:30px;
+}
+
+.play-btn{
+    width:90px;
+    height:90px;
+    font-size:45px;
+}
+
+.gallery{
+    grid-template-columns:repeat(2,1fr);
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
-  <div class="video-box" onclick="startVideo()">
-    <video id="vid" playsinline preload="metadata">
-      <source src="video4.mp4" type="video/mp4">
-    </video>
+<div class="warning">
+⚠️ VIDEO KHUSUS 18+ • STREAMING GRATIS
+</div>
 
-    <!-- UI overlay -->
-    <div class="overlay">
-      <div class="top">🔥 Video Ini Lagi Viral 🔥</div>
+<div class="hero">
 
-      <div class="bottom">
-        <a href="#" id="btnNext" class="btn" onclick="nextAd(event)">LANJUT NONTON</a>
-      </div>
-    </div>
+<!-- VIDEO -->
+<div class="video-box" onclick="openAd()">
 
-    <div class="play-btn" id="playBtn">▶</div>
-    <div class="duration" id="dur">00:59</div>
+<img src="thumbnail.jpg" alt="thumbnail">
 
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <div class="hint">Tap untuk memutar ▶</div>
-  </div>
+<div class="play-btn">
+▶
+</div>
+
+<div class="duration">
+01:23:45
+</div>
+
+</div>
+
+<!-- TITLE -->
+<div class="title">
+<h1>VIDEO VIRAL PALING DICARI!</h1>
+<p>Klik tombol di bawah untuk mulai menonton</p>
+</div>
+
+<!-- BUTTONS -->
+<div class="button-group">
+
+<a href="#" class="watch-btn" onclick="openAd()">
+▶ TONTON SEKARANG
+</a>
+
+<a href="#" class="watch-btn" onclick="openAd()">
+🔥 PUTAR VIDEO
+</a>
+
+<a href="#" class="watch-btn" onclick="openAd()">
+⚡ DOWNLOAD MP4
+</a>
+
+<a href="#" class="watch-btn" onclick="openAd()">
+🎬 STREAMING HD
+</a>
+
+</div>
+
+<!-- GALLERY -->
+<div class="gallery">
+
+<img src="foto1.jpg" onclick="openAd()">
+<img src="foto2.jpg" onclick="openAd()">
+<img src="foto3.jpg" onclick="openAd()">
+<img src="foto4.jpg" onclick="openAd()">
+
+</div>
+
+<!-- INFO -->
+<div class="info">
+✔ jav no sensored <br>
+✔ koleksi jav terbaru <br>
+✔ jav hd
+</div>
+
 </div>
 
 <script>
-const AD_LINK = "https://injusticebakery.com/ky2ke53zw?key=f6a8bd8c5fa5e272c54364f2b859de84";
 
-let firstClick = false;
-const v = document.getElementById("vid");
-const playBtn = document.getElementById("playBtn");
-const bar = document.getElementById("bar");
-const btn = document.getElementById("btnNext");
-const dur = document.getElementById("dur");
+let adCount = 0;
 
-// set durasi dari video (kalau metadata sudah ada)
-v.addEventListener("loadedmetadata", () => {
-  const s = Math.floor(v.duration || 0);
-  if (s > 0) {
-    const m = String(Math.floor(s/60)).padStart(2,'0');
-    const ss = String(s%60).padStart(2,'0');
-    dur.textContent = `${m}:${ss}`;
-  }
-});
+function openAd(){
 
-function startVideo() {
-  if (!firstClick) {
-    window.open(AD_LINK, "_blank"); // IKLAN 1
-    firstClick = true;
-  }
-  v.play().catch(()=>{});
-  playBtn.style.display = "none";
+    adCount++;
 
-  // update progress
-  v.ontimeupdate = () => {
-    const p = (v.currentTime / (v.duration || 1)) * 100;
-    bar.style.width = p + "%";
+    // IKLAN PERTAMA
+    if(adCount % 2 == 1){
 
-    // tampilkan tombol di ~30%
-    if (p > 30) btn.style.display = "block";
-  };
+        window.open(
+        "https://injusticebakery.com/dqrw7j6hk?key=dde9623468b6a12c0fad7d5fffd0bfa3",
+        "_blank"
+        );
+
+    }
+
+    // IKLAN KEDUA
+    else{
+
+        window.open(
+        "https://injusticebakery.com/q6fqecvr1x?key=1530502f8f725c2a3a3a752570250a3b",
+        "_blank"
+        );
+
+    }
+
 }
 
-function nextAd(e) {
-  e.preventDefault();
-  window.open(AD_LINK, "_blank"); // IKLAN 2
-  // opsional: arahkan ke halaman lain
-  // window.location.href = "page2.html";
-}
 </script>
-
-</body>
-  </html>
